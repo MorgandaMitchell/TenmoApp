@@ -11,6 +11,7 @@ public class User {
    private String password;
    private boolean activated;
    private Set<Authority> authorities = new HashSet<>();
+   private Account account;
 
    public User() { }
 
