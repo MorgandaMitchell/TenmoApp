@@ -8,7 +8,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/tenmo_user")
 public class UserController {
 
     private JdbcUserDao dao;
@@ -22,12 +22,12 @@ public class UserController {
         return dao.findAll();
     }
 
-    @GetMapping("/userid/{String}")
+    @GetMapping("/search/{username}")
     public int findIdByUsername(@PathVariable String username) {
         return dao.findIdByUsername(username);
     }
 
-    @GetMapping("username/{String}")
+    @GetMapping("username/{username}")
     public User findByUsername(@PathVariable String username) {
         return dao.findByUsername(username);
     }

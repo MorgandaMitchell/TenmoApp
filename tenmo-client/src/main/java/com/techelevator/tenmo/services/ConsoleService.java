@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.UserCredentials;
 
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.util.Scanner;
 public class ConsoleService {
 
     private final Scanner scanner = new Scanner(System.in);
+    private Account account;
 
     public int promptForMenuSelection(String prompt) {
         int menuSelection;
@@ -44,6 +46,10 @@ public class ConsoleService {
         System.out.println("5: Request TE bucks");
         System.out.println("0: Exit");
         System.out.println();
+    }
+
+    public void printBalance(BigDecimal balance) {
+        System.out.println("Your current balance is: $" + balance.toString());
     }
 
     public UserCredentials promptForCredentials() {
@@ -83,6 +89,7 @@ public class ConsoleService {
         System.out.println("\nPress Enter to continue...");
         scanner.nextLine();
     }
+
 
     public void printErrorMessage() {
         System.out.println("An error occurred. Check the log for details.");

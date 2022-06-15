@@ -1,10 +1,13 @@
 package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.AccountDao;
+import com.techelevator.tenmo.dao.JdbcAccountDao;
 import com.techelevator.tenmo.model.Account;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.math.BigDecimal;
 
 @RestController
 public class AccountController {
@@ -22,7 +25,7 @@ public class AccountController {
 //    }
 
     @GetMapping("/{id}/balance")
-    public double getBalanceById(@PathVariable int id) {
+    public BigDecimal getBalanceById(@PathVariable Long id) {
         return dao.getBalance(id);
     }
 
