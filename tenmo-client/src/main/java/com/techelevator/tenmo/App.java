@@ -59,6 +59,7 @@ public class App {
         if (currentUser == null) {
             consoleService.printErrorMessage();
         }
+        accountService = new AccountService(API_BASE_URL, currentUser);
     }
 
     private void mainMenu() {
@@ -102,7 +103,9 @@ public class App {
 
 	private void sendBucks() {
 		// TODO Auto-generated method stub
-		
+		consoleService.printSendMoneyMenu(accountService.getAllUsers());
+
+        long receiverId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel): ");
 	}
 
 	private void requestBucks() {
