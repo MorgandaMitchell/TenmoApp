@@ -11,17 +11,17 @@ public class Transfer {
     private Long accountTo;
     private String accountFromString = null;
     private String accountToString = null;
-    private BigDecimal amount;
+    private BigDecimal transferAmount;
     private boolean transferIsRequest;
 
-    public Transfer(int transferStatus, Long transferId, Long accountFrom, Long accountTo, String accountFromString, String accountToString, BigDecimal amount, boolean transferIsRequest) {
+    public Transfer(int transferStatus, Long transferId, Long accountFrom, Long accountTo, String accountFromString, String accountToString, BigDecimal transferAmount, boolean transferIsRequest) {
         this.transferStatus = transferStatus;
         this.transferId = transferId;
         this.accountFrom = accountFrom;
         this.accountTo = accountTo;
         this.accountFromString = accountFromString;
         this.accountToString = accountToString;
-        this.amount = amount;
+        this.transferAmount = transferAmount;
         this.transferIsRequest = transferIsRequest;
     }
 
@@ -77,12 +77,12 @@ public class Transfer {
         this.accountToString = accountToString;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
+    public BigDecimal getTransferAmount() {
+        return transferAmount;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+    public void setTransferAmount(BigDecimal transferAmount) {
+        this.transferAmount = transferAmount;
     }
 
     public boolean isTransferIsRequest() {

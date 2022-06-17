@@ -20,4 +20,5 @@ public interface UserDao {
     void sendTBucks(long senderId, BigDecimal amount);
 
     boolean create(String username, String password);
+
 }

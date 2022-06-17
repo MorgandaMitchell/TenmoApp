@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -61,6 +62,15 @@ public class User {
    public void setAuthorities(Set<Authority> authorities) {
       this.authorities = authorities;
    }
+
+   public Account getAccount() {
+      return account;
+   }
+
+   public void setAccount(Account account) {
+      this.account = account;
+   }
+
 
    public void setAuthorities(String authorities) {
       String[] roles = authorities.split(",");

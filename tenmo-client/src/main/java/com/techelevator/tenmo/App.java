@@ -103,9 +103,9 @@ public class App {
 
 	private void sendBucks() {
 		// TODO Auto-generated method stub
-		consoleService.printSendMoneyMenu(accountService.getAllUsers());
+		consoleService.printMoneyMenu(accountService.getAllUsers());
+        accountService.sendBucks();
 
-        long receiverId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel): ");
 	}
 
 	private void requestBucks() {

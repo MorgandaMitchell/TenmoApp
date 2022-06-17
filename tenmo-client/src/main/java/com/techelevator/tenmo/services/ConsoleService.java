@@ -86,7 +86,7 @@ public class ConsoleService {
         }
     }
 
-    public void printSendMoneyMenu(User[] users) {
+    public void printMoneyMenu(User[] users) {
         System.out.println("-------------------------------------------");
         System.out.println("Users");
         System.out.println("ID        Name");
@@ -96,6 +96,7 @@ public class ConsoleService {
             System.out.println(user.getId() + "        " + user.getUsername());
         }
         System.out.println("-------------------------------------------");
+
     }
 
 

@@ -87,6 +87,7 @@ public class JdbcUserDao implements UserDao {
         return users;
     }
 
+
     @Override
     public User findByUsername(String username) throws UsernameNotFoundException {
         String sql = "SELECT user_id, username, password_hash FROM tenmo_user WHERE username ILIKE ?;";
