@@ -64,7 +64,7 @@ public class AccountService {
                 System.out.println("Something went wrong while entering amount to transfer.");
             }
 
-            restTemplate.put(baseUrl + "/tenmo_user", makeAuthEntity(transfer));
+            restTemplate.put(baseUrl + "/tenmo_user/send", makeAuthEntity(transfer));
         } catch (DataAccessException e) {
             System.out.println();
         }
@@ -72,18 +72,36 @@ public class AccountService {
         return viewCurrentBalance();
     }
 
-//    public BigDecimal sendBucks(long receiverId, long senderId, BigDecimal amount) {
-//
-//        Transfer transfer = new Transfer(1, null, senderId, receiverId, null, null, amount, false);
-//
-//        try {
-//            restTemplate.put(baseUrl, makeAuthEntity(transfer));
-//        } catch (DataAccessException e) {
-//            System.out.println();
-//        }
-//
-//        return viewCurrentBalance();
-//    }
+    public BigDecimal requestBucks() {
+
+        Transfer transfer = new Transfer();
+        BigDecimal amount;
+
+        try {
+            Scanner scan = new Scanner(System.in);
+
+            transfer.setAccountTo(Long.parseLong(scan.nextLine()));
+            transfer.setAccountFrom(currentUser.getUser().getId());
+
+            if (transfer.getAccountFrom() != 0) {
+                System.out.println("Please enter an amount: ");
+            }
+
+            try {
+                amount = scan.nextBigDecimal();
+                transfer.setTransferAmount(amount);
+            } catch (NumberFormatException e) {
+                System.out.println("Something went wrong while entering amount to transfer.");
+            }
+
+            restTemplate.put(baseUrl + "/tenmo_user/recieve", makeAuthEntity(transfer));
+        } catch (DataAccessException e) {
+            System.out.println();
+        }
+
+        return viewCurrentBalance();
+    }
+
 
     public User[] getAllUsers() {
 
@@ -98,6 +116,19 @@ public class AccountService {
         return users;
     }
 
+    public Transfer[] getTransferHistory(){
+
+        Transfer[] transfers = null;
+
+        try {
+            ResponseEntity<Transfer[]> response = restTemplate.exchange(baseUrl + "/transfer/transfer_history/2001", HttpMethod.GET, makeAuthEntity(), Transfer[].class);
+            transfers = response.getBody();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return transfers;
+    }
+
     private HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(currentUser.getToken());
@@ -110,5 +141,6 @@ public class AccountService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new HttpEntity<>(transfer, headers);
     }
+
 
 }

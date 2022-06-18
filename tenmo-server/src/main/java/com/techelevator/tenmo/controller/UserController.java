@@ -40,7 +40,7 @@ public class UserController {
         return dao.create(username, password);
     }
 
-    @PutMapping(path = "")
+    @PutMapping(path = "/send")
     public void sendBucks(@RequestBody Transfer transfer) {
         System.out.println(transfer.getAccountFrom() + " " + transfer.getAccountTo() + " " + transfer.getTransferAmount());
         BigDecimal money = transfer.getTransferAmount();
@@ -50,7 +50,28 @@ public class UserController {
                 if (!transfer.getAccountFrom().equals(transfer.getAccountTo())) {
                     dao.sendTBucks(transfer.getAccountTo(), transfer.getTransferAmount());
                     dao.receivingTBucks(transfer.getAccountFrom(), transfer.getTransferAmount());
+                    transfer.setTransferStatus(2);
+                    transfer.setTransferType(2);
+                }
+            }
+            else System.out.println("Balance not large enough!");
+        } catch (ResourceAccessException e) {
+            System.err.println("try again!");
+        }
+    }
+
+    @PutMapping(path = "/recieve")
+    public void receivingTBucks(@RequestBody Transfer transfer) {
+        System.out.println(transfer.getAccountTo() + " " + transfer.getAccountFrom() + " " + transfer.getTransferAmount());
+        BigDecimal money = transfer.getTransferAmount();
+        try {
+            if (money.compareTo(dao.getBalance(transfer.getAccountFrom())) <= 0) {
+                System.out.println("Balance is more than amount to transfer!");
+                if (!transfer.getAccountFrom().equals(transfer.getAccountTo())) {
+                    dao.sendTBucks(transfer.getAccountFrom(), transfer.getTransferAmount());
+                    dao.receivingTBucks(transfer.getAccountTo(), transfer.getTransferAmount());
                     transfer.setTransferStatus(1);
+                    transfer.setTransferType(1);
                 }
             }
             else System.out.println("Balance not large enough!");

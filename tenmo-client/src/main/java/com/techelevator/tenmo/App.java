@@ -93,7 +93,7 @@ public class App {
 
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
-		
+		consoleService.printTransferHistoryMenu(accountService.getTransferHistory());
 	}
 
 	private void viewPendingRequests() {
@@ -110,7 +110,8 @@ public class App {
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
-		
+        consoleService.printMoneyMenu(accountService.getAllUsers());
+        accountService.requestBucks();
 	}
 
 }

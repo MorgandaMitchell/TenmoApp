@@ -7,10 +7,11 @@ import java.util.List;
 
 public interface TransferDao {
 
-    public List<Transfer> getTransferHistory(long userId);
+
+    public List<Transfer> getTransferHistory(long accountId);
     public Transfer getTransferWithId(long transferId);
     public String sendTransfer(long senderId, long receiverId, BigDecimal amount);
     public String requestTransfer (long senderId, long receiverId, BigDecimal amount);
-    public List<Transfer> getPendingRequests(long userId);
     public String updateTransferRequest (Transfer transfer, long statusId);
+    public List<Transfer> getPendingRequests();
 }

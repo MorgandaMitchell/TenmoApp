@@ -2,6 +2,7 @@ package com.techelevator.tenmo.services;
 
 
 import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 
@@ -91,13 +92,26 @@ public class ConsoleService {
         System.out.println("Users");
         System.out.println("ID        Name");
         System.out.println("-------------------------------------------");
-        for (User user :
-                users) {
+        for (User user : users) {
             System.out.println(user.getId() + "        " + user.getUsername());
         }
-        System.out.println("-------------------------------------------");
-
+        System.out.println("-------------------------------------------\n");
+        System.out.println("Enter ID of user you want to request from. (0 to cancel):\n");
     }
+
+   public void printTransferHistoryMenu(Transfer[] transfers) {
+        System.out.println("-------------------------------------------");
+        System.out.println("Transfers");
+        System.out.println("ID        Status");
+        System.out.println("-------------------------------------------");
+        for (Transfer transfer :
+                transfers) {
+            System.out.println(transfer.getTransferId() + "        " + transfer.getTransferStatus());
+        }
+        System.out.println("-------------------------------------------");
+        System.out.println("Enter ID for transfer details. (0 to cancel):\n");
+
+   }
 
 
     public void pause() {
