@@ -31,12 +31,11 @@ public class TransferService {
 
 
         try {
-
             transfer.setRecipientId(Long.parseLong(scan.nextLine()));
             transfer.setSenderId(currentUser.getUser().getId());
 
             if (transfer.getRecipientId() != 0 && transfer.getRecipientId() != transfer.getSenderId()) {
-                System.out.println("Please enter an amount: ");
+                System.out.println("Please enter the amount you would like to send: ");
                 amount = scan.nextBigDecimal();
                 transfer.setTransferAmount(amount);
                 restTemplate.put(baseUrl + "/transfer", makeTransferEntity(transfer));
@@ -54,38 +53,33 @@ public class TransferService {
 
         Transfer transfer = new Transfer();
         BigDecimal amount;
+        Scanner scan = new Scanner(System.in);
 
         try {
-            Scanner scan = new Scanner(System.in);
-
             transfer.setRecipientId(Long.parseLong(scan.nextLine()));
             transfer.setSenderId(currentUser.getUser().getId());
 
-            if (transfer.getSenderId() != transfer.getRecipientId()) {
-                System.out.println("Please enter an amount: ");
-            } else {
-                System.out.println("Oops looks like you chose your account. Please try again.");
-            }
-
-            try {
+            if (transfer.getRecipientId() != 0 && transfer.getRecipientId() != transfer.getSenderId()) {
+                System.out.println("Please enter the amount you would like to request: ");
                 amount = scan.nextBigDecimal();
                 transfer.setTransferAmount(amount);
-            } catch (NumberFormatException e) {
-                System.out.println("Something went wrong while entering amount to transfer.");
+                restTemplate.put(baseUrl + "/transfer/request", makeTransferEntity(transfer));
             }
-
-            restTemplate.put(baseUrl + "/transfer/receive", makeTransferEntity(transfer));
         } catch (DataAccessException e) {
             System.out.println();
+        } catch (NumberFormatException e) {
+            System.out.println("The information you entered is invalid.");
+        } catch (InputMismatchException e) {
+            System.out.println("Please enter a number.");
         }
     }
 
-    public Transfer[] getTransferHistory(){
+    public Transfer[] getTransfers(String path) {
 
         Transfer[] transfers = null;
 
         try {
-            ResponseEntity<Transfer[]> response = restTemplate.exchange(baseUrl + "/transfer/history/" + currentUser.getUser().getId(), HttpMethod.GET, makeTransferEntity(), Transfer[].class);
+            ResponseEntity<Transfer[]> response = restTemplate.exchange(baseUrl + path + currentUser.getUser().getId(), HttpMethod.GET, makeTransferEntity(), Transfer[].class);
             transfers = response.getBody();
         } catch (Exception e) {
             e.printStackTrace();

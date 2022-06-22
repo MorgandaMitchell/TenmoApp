@@ -28,9 +28,9 @@ public class TransferController {
         return transferDao.getTransferHistory(id);
     }
 
-    @GetMapping("/pending_transfers")
-    public List<Transfer> pendingTransfers(){
-        return transferDao.getPendingRequests();
+    @GetMapping("/pending/{id}")
+    public List<Transfer> pendingTransfers(@PathVariable long id){
+        return transferDao.getPendingRequests(id);
     }
 
 
@@ -60,8 +60,8 @@ public class TransferController {
         }
     }
 
-    @PutMapping(path = "/receive")
-    public String receiveTBucksRequest(@RequestBody Transfer transfer) {
+    @PutMapping(path = "/request")
+    public void receiveTBucksRequest(@RequestBody Transfer transfer) {
 
         transfer.setSenderAccountId(accountDao.getAccount(transfer.getSenderId()).getId());
         transfer.setRecipientAccountId(accountDao.getAccount(transfer.getRecipientId()).getId());
@@ -71,8 +71,7 @@ public class TransferController {
         try {
             transferDao.addTransfer(transfer);
         } catch (Exception e) {
-            return "We are having some trouble with your receive request. Please try again.";
+            System.out.println();
         }
-        return "Your request was sent!";
     }
 }

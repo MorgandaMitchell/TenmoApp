@@ -38,7 +38,7 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public List<Transfer> getPendingRequests() {
+    public List<Transfer> getPendingRequests(long userId) {
         List<Transfer> pending = new ArrayList<>();
         String sql = "SELECT t.transfer_id, t.transfer_type_id, t.transfer_status_id, t.account_from, t.account_to, t.amount, x.username AS sender,  y.username AS recipient\n" +
                 "FROM transfer t\n" +
@@ -46,8 +46,8 @@ public class JdbcTransferDao implements TransferDao {
                 "JOIN account acto ON acto.account_id = t.account_to\n" +
                 "JOIN tenmo_user x ON acfrom.user_id = x.user_id\n" +
                 "JOIN tenmo_user y ON acto.user_id = y.user_id\n" +
-                "WHERE t.transfer_type_id = 1 AND (acto.user_id = 1001 OR acfrom.user_id = 1001);";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+                "WHERE t.transfer_type_id = 1 AND (acto.user_id = ? OR acfrom.user_id = ?);";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userId);
         while(results.next()) {
             Transfer transfer = mapRowTransfer(results);
             pending.add(transfer);

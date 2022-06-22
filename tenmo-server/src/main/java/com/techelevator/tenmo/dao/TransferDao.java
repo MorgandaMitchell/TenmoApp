@@ -22,5 +22,5 @@ public interface TransferDao {
 
     String updateTransferRequest (Transfer transfer, long statusId);
 
-    List<Transfer> getPendingRequests();
+    List<Transfer> getPendingRequests(long userId);
 }

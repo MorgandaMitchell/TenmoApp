@@ -96,11 +96,12 @@ public class App {
 
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
-        consoleService.printTransferHistoryMenu(transferService.getTransferHistory());
+        consoleService.printTransferHistoryMenu(transferService.getTransfers("/transfer/history/"));
 	}
 
 	private void viewPendingRequests() {
 		// TODO Auto-generated method stub
+        consoleService.printPendingMenu(transferService.getTransfers("transfer/pending/"));
 	}
 
 	private void sendBucks() {

@@ -139,10 +139,31 @@ public class ConsoleService {
             } while (selection != 0);
         } catch (InputMismatchException e) {
             System.out.println("Please enter a number.");
+        } catch (Exception e) {
+            System.out.println();
         }
-
-
    }
+
+    public void printPendingMenu(Transfer[] transfers) {
+
+        long selection;
+
+        try {
+
+            System.out.println("-------------------------------------------");
+            System.out.println("Pending Transfers");
+            System.out.println("ID            To        Amount");
+            System.out.println("-------------------------------------------");
+            for (Transfer transfer : transfers) {
+                System.out.println(transfer.getTransferId() + "         To: " + transfer.getSenderUsername() + "        $ " + transfer.getTransferAmount());
+            }
+            System.out.println("-------------------------------------------");
+            System.out.println("Enter ID for transfer details. (0 to cancel):\n");
+
+        } catch (Exception e) {
+            System.out.println("");
+        }
+    }
 
     public void pause() {
         System.out.println("\nPress Enter to continue...");
