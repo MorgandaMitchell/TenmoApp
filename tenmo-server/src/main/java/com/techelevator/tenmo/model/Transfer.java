@@ -1,44 +1,31 @@
 package com.techelevator.tenmo.model;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import java.math.BigDecimal;
 import java.util.List;
 
 public class Transfer {
 
-    private final static String[] TRANSFER_STATUS_DESCRIPTION = new String[]{"Pending", "Approved", "Rejected"};
     private int transferStatus;
     private int transferType;
-    private Long transferId;
-    private Long accountFrom;
-    private Long accountTo;
-    private String accountFromString = null;
-    private String accountToString = null;
+    private long transferId;
+    private long senderId;
+    private long recipientId;
+    private long senderAccountId;
+    private long recipientAccountId;
+    private String senderUsername;
+    private String recipientUsername;
     private BigDecimal transferAmount;
     private boolean transferIsRequest;
-    private LocalDate dateStamp;
-    private List<Transfer> transferHistory;
-    private List<Transfer> pendingRequest;
 
 
-    public Transfer(int transferStatus, int transferType, Long transferId, Long accountFrom, Long accountTo, String accountFromString, String accountToString,
-                    BigDecimal transferAmount, boolean transferIsRequest, LocalDate dateStamp, List<Transfer> transferHistory, List<Transfer> pendingRequest) {
+    public Transfer(int transferStatus, int transferType, long transferId, long senderId, long recipientId,
+                    BigDecimal transferAmount, boolean transferIsRequest) {
         this.transferStatus = transferStatus;
         this.transferType = transferType;
         this.transferId = transferId;
-        this.accountFrom = accountFrom;
-        this.accountTo = accountTo;
-        this.accountFromString = accountFromString;
-        this.accountToString = accountToString;
+        this.senderId = senderId;
+        this.recipientId = recipientId;
         this.transferAmount = transferAmount;
         this.transferIsRequest = transferIsRequest;
-        this.transferHistory = transferHistory;
-        this.pendingRequest = pendingRequest;
-
-
-        dateStamp.now();
-
     }
 
     public Transfer() {
@@ -60,44 +47,60 @@ public class Transfer {
         this.transferStatus = transferStatus;
     }
 
-    public Long getTransferId() {
+    public long getTransferId() {
         return transferId;
     }
 
-    public void setTransferId(Long transferId) {
+    public void setTransferId(long transferId) {
         this.transferId = transferId;
     }
 
-    public Long getAccountFrom() {
-        return accountFrom;
+    public long getSenderId() {
+        return senderId;
     }
 
-    public void setAccountFrom(Long accountFrom) {
-        this.accountFrom = accountFrom;
+    public void setSenderId(long senderId) {
+        this.senderId = senderId;
     }
 
-    public Long getAccountTo() {
-        return accountTo;
+    public long getRecipientId() {
+        return recipientId;
     }
 
-    public void setAccountTo(Long accountTo) {
-        this.accountTo = accountTo;
+    public void setRecipientId(long recipientId) {
+        this.recipientId = recipientId;
     }
 
-    public String getAccountFromString() {
-        return accountFromString;
+    public long getSenderAccountId() {
+        return senderAccountId;
     }
 
-    public void setAccountFromString(String accountFromString) {
-        this.accountFromString = accountFromString;
+    public void setSenderAccountId(long senderAccountId) {
+        this.senderAccountId = senderAccountId;
     }
 
-    public String getAccountToString() {
-        return accountToString;
+    public long getRecipientAccountId() {
+        return recipientAccountId;
     }
 
-    public void setAccountToString(String accountToString) {
-        this.accountToString = accountToString;
+    public void setRecipientAccountId(long recipientAccountId) {
+        this.recipientAccountId = recipientAccountId;
+    }
+
+    public String getSenderUsername() {
+        return senderUsername;
+    }
+
+    public void setSenderUsername(String senderUsername) {
+        this.senderUsername = senderUsername;
+    }
+
+    public String getRecipientUsername() {
+        return recipientUsername;
+    }
+
+    public void setRecipientUsername(String recipientUsername) {
+        this.recipientUsername = recipientUsername;
     }
 
     public BigDecimal getTransferAmount() {
@@ -114,22 +117,5 @@ public class Transfer {
 
     public void setTransferIsRequest(boolean transferIsRequest) {
         this.transferIsRequest = transferIsRequest;
-    }
-
-
-    public List<Transfer> getTransferHistory() {
-        return transferHistory;
-    }
-
-    public void setTransferHistory(List<Transfer> transferHistory) {
-        this.transferHistory = transferHistory;
-    }
-
-    public List<Transfer> getPendingRequest() {
-        return pendingRequest;
-    }
-
-    public void setPendingRequest(List<Transfer> pendingRequest) {
-        this.pendingRequest = pendingRequest;
     }
 }

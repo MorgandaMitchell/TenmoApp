@@ -17,9 +17,9 @@ import java.math.BigDecimal;
 public class AccountController {
 
     @Autowired
-    private UserDao dao;
+    private AccountDao dao;
 
-    public AccountController(UserDao dao) {
+    public AccountController(AccountDao dao) {
         this.dao = dao;
     }
 
@@ -28,9 +28,6 @@ public class AccountController {
 //        return dao.getAccountById;
 //    }
 
-    @GetMapping("/{id}/balance")
-    public BigDecimal getBalanceById(@PathVariable Long id) {
-        return dao.getBalance(id);
-    }
+
 
 }

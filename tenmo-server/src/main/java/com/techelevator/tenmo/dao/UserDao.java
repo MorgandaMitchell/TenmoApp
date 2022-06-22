@@ -9,17 +9,9 @@ public interface UserDao {
 
     List<User> findAll();
 
-
-
     User findByUsername(String username);
 
     int findIdByUsername(String username);
-
-    BigDecimal getBalance(long id);
-
-    void receivingTBucks(long receiverId, BigDecimal amount);
-
-    void sendTBucks(long senderId, BigDecimal amount);
 
     boolean create(String username, String password);
 

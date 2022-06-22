@@ -16,16 +16,15 @@ import java.util.List;
 public class JdbcAccountDao implements AccountDao{
 
     private JdbcTemplate jdbcTemplate;
-    private User user;
 
     public JdbcAccountDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public Account getAccount() {
-        String sql = "Select account_id, user_id, balance FROM account WHERE user_id = ?;";
-        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, user.getId());
+    public Account getAccount(long userId) {
+        String sql = "Select account_id, balance FROM account WHERE user_id = ?;";
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userId);
         if (rowSet.next()) {
             return mapRowToAccount(rowSet);
         }

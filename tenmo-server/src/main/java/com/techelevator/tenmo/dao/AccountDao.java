@@ -9,10 +9,7 @@ import java.util.List;
 
 public interface AccountDao {
 
-    Account getAccount();
+    Account getAccount(long userId);
 
-
-    BigDecimal getBalance(long id);
-
-
-}
+    BigDecimal getBalance(long userId);
+    }

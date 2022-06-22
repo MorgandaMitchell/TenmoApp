@@ -5,6 +5,7 @@ import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
+import com.techelevator.tenmo.services.TransferService;
 
 public class App {
 
@@ -13,6 +14,7 @@ public class App {
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private AccountService accountService;
+    private TransferService transferService;
     private AuthenticatedUser currentUser;
 
     public static void main(String[] args) {
@@ -60,6 +62,7 @@ public class App {
             consoleService.printErrorMessage();
         }
         accountService = new AccountService(API_BASE_URL, currentUser);
+        transferService = new TransferService(API_BASE_URL, currentUser);
     }
 
     private void mainMenu() {
@@ -93,25 +96,24 @@ public class App {
 
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
-		consoleService.printTransferHistoryMenu(accountService.getTransferHistory());
+		consoleService.printTransferHistoryMenu(transferService.getTransferHistory());
 	}
 
 	private void viewPendingRequests() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	private void sendBucks() {
 		// TODO Auto-generated method stub
 		consoleService.printMoneyMenu(accountService.getAllUsers());
-        accountService.sendBucks();
+        transferService.sendBucks();
 
 	}
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
         consoleService.printMoneyMenu(accountService.getAllUsers());
-        accountService.requestBucks();
+        transferService.requestBucks();
 	}
 
 }

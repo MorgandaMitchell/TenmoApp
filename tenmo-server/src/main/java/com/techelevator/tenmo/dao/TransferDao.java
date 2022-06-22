@@ -8,10 +8,21 @@ import java.util.List;
 public interface TransferDao {
 
 
-    public List<Transfer> getTransferHistory(long accountId);
-    public Transfer getTransferWithId(long transferId);
-    public String sendTransfer(long senderId, long receiverId, BigDecimal amount);
-    public String requestTransfer (long senderId, long receiverId, BigDecimal amount);
-    public String updateTransferRequest (Transfer transfer, long statusId);
-    public List<Transfer> getPendingRequests();
+    List<Transfer> getTransferHistory(long accountId);
+
+    Transfer getTransferWithId(long transferId);
+
+    BigDecimal getBalance(long id);
+
+    void receivingTBucks(long receiverId, BigDecimal amount);
+
+    void sendTBucks(long senderId, BigDecimal amount);
+
+    Long addSendTransfer(long senderId, long receiverId, BigDecimal amount);
+
+    void addRequestTransfer(long senderId, long receiverId, BigDecimal amount);
+
+    String updateTransferRequest (Transfer transfer, long statusId);
+
+    List<Transfer> getPendingRequests();
 }

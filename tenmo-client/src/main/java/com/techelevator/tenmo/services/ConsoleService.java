@@ -102,15 +102,14 @@ public class ConsoleService {
    public void printTransferHistoryMenu(Transfer[] transfers) {
         System.out.println("-------------------------------------------");
         System.out.println("Transfers");
-        System.out.println("ID        Status");
+        System.out.println("ID            From/To        Amount");
         System.out.println("-------------------------------------------");
         for (Transfer transfer :
                 transfers) {
-            System.out.println(transfer.getTransferId() + "        " + transfer.getTransferStatus());
+            System.out.println(transfer.getTransferId() + "         From: " + transfer.getTransferStatus() + "        $ " + transfer.getTransferAmount());
         }
         System.out.println("-------------------------------------------");
         System.out.println("Enter ID for transfer details. (0 to cancel):\n");
-
    }
 
 

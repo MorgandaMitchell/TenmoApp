@@ -34,48 +34,6 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public BigDecimal getBalance(long id) {
-
-        BigDecimal balance = null;
-        String sql = "Select balance FROM account WHERE account.user_id = ?;";
-
-        try {
-            balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, id);
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-        }
-
-        return balance;
-    }
-
-    @Override
-    public void receivingTBucks(long receiverId, BigDecimal amount) {
-
-        String sql = "UPDATE account SET balance = balance - ? WHERE account.user_id = ?";
-
-        try{
-            jdbcTemplate.update(sql, amount, receiverId);
-        } catch (DataAccessException e) {
-            System.err.println("Error receiving money.");
-
-        }
-
-    }
-
-    @Override
-    public void sendTBucks(long senderId, BigDecimal amount) {
-
-        String sql = "UPDATE account SET balance = balance + ? WHERE account.user_id = ?";
-
-        try{
-            jdbcTemplate.update(sql, amount, senderId);
-        } catch (DataAccessException e) {
-            System.err.println("Error receiving money.");
-
-        }
-    }
-
-    @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
         String sql = "SELECT user_id, username, password_hash FROM tenmo_user;";
