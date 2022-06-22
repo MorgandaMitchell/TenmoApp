@@ -1,18 +1,18 @@
 package com.techelevator.tenmo.services;
 
 
-import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.model.*;
 
 import java.math.BigDecimal;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ConsoleService {
 
     private final Scanner scanner = new Scanner(System.in);
     private Account account;
+    private String[] status = new String[]{"Pending", "Approved", "Rejected"};
+    private String[] type = new String[] {"Request", "Send"};
 
     public int promptForMenuSelection(String prompt) {
         int menuSelection;
@@ -87,31 +87,62 @@ public class ConsoleService {
         }
     }
 
-    public void printMoneyMenu(User[] users) {
+    public void printMoneyMenu(User[] users, AuthenticatedUser currentUser, String sendOrRequest) {
         System.out.println("-------------------------------------------");
         System.out.println("Users");
         System.out.println("ID        Name");
         System.out.println("-------------------------------------------");
         for (User user : users) {
+            if (user.getId().equals(currentUser.getUser().getId()) ) {
+                continue;
+            }
             System.out.println(user.getId() + "        " + user.getUsername());
         }
         System.out.println("-------------------------------------------\n");
-        System.out.println("Enter ID of user you want to request from. (0 to cancel):\n");
+        System.out.println("Enter ID of user you want to " + sendOrRequest + ". (0 to cancel):\n");
     }
 
    public void printTransferHistoryMenu(Transfer[] transfers) {
-        System.out.println("-------------------------------------------");
-        System.out.println("Transfers");
-        System.out.println("ID            From/To        Amount");
-        System.out.println("-------------------------------------------");
-        for (Transfer transfer :
-                transfers) {
-            System.out.println(transfer.getTransferId() + "         From: " + transfer.getTransferStatus() + "        $ " + transfer.getTransferAmount());
-        }
-        System.out.println("-------------------------------------------");
-        System.out.println("Enter ID for transfer details. (0 to cancel):\n");
-   }
 
+        long selection;
+
+        try {
+            do {
+                System.out.println("-------------------------------------------");
+                System.out.println("Transfers");
+                System.out.println("ID            From/To        Amount");
+                System.out.println("-------------------------------------------");
+                for (Transfer transfer : transfers) {
+                    System.out.println(transfer.getTransferId() + "         From: " + transfer.getSenderUsername() + "        $ " + transfer.getTransferAmount());
+                }
+                System.out.println("-------------------------------------------");
+                System.out.println("Enter ID for transfer details. (0 to cancel):\n");
+
+                Scanner scan = new Scanner(System.in);
+
+                selection = Long.parseLong(scan.nextLine());
+
+                for (Transfer transfer: transfers) {
+                    if (selection == transfer.getTransferId()) {
+                        System.out.println("-------------------------------------------");
+                        System.out.println("Transfer Details");
+                        System.out.println("-------------------------------------------");
+                        System.out.println("Id: " + transfer.getTransferId());
+                        System.out.println("From: " + transfer.getSenderId());
+                        System.out.println("To: " + transfer.getRecipientId());
+                        System.out.println("Type: " + type[transfer.getTransferType() - 1]);
+                        System.out.println("Status: " + status[transfer.getTransferStatus() - 1]);
+                        System.out.println("Amount: $" + transfer.getTransferAmount());
+                    }
+                }
+                pause();
+            } while (selection != 0);
+        } catch (InputMismatchException e) {
+            System.out.println("Please enter a number.");
+        }
+
+
+   }
 
     public void pause() {
         System.out.println("\nPress Enter to continue...");

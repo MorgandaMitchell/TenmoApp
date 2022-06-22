@@ -96,7 +96,7 @@ public class App {
 
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
-		consoleService.printTransferHistoryMenu(transferService.getTransferHistory());
+        consoleService.printTransferHistoryMenu(transferService.getTransferHistory());
 	}
 
 	private void viewPendingRequests() {
@@ -105,15 +105,16 @@ public class App {
 
 	private void sendBucks() {
 		// TODO Auto-generated method stub
-		consoleService.printMoneyMenu(accountService.getAllUsers());
+        String send = "send to";
+        consoleService.printMoneyMenu(accountService.getAllUsers(), currentUser, send);
         transferService.sendBucks();
-
+        viewCurrentBalance();
 	}
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
-        consoleService.printMoneyMenu(accountService.getAllUsers());
+        String request = "request from";
+        consoleService.printMoneyMenu(accountService.getAllUsers(), currentUser, request);
         transferService.requestBucks();
 	}
-
 }

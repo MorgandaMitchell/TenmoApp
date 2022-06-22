@@ -41,46 +41,38 @@ public class TransferController {
 
     @PutMapping
     public void sendBucks(@RequestBody Transfer transfer) {
-        System.out.println(transfer.getSenderId() + " " + transfer.getRecipientId() + " " + transfer.getTransferAmount());
-        BigDecimal money = transfer.getTransferAmount();
 
-        long senderAccountId = accountDao.getAccount(transfer.getSenderId()).getId();
-        long recipientAccountId = accountDao.getAccount(transfer.getRecipientId()).getId();
+        transfer.setSenderAccountId(accountDao.getAccount(transfer.getSenderId()).getId());
+        transfer.setRecipientAccountId(accountDao.getAccount(transfer.getRecipientId()).getId());
+        transfer.setTransferStatus(2);
+        transfer.setTransferType(2);
 
         try {
-            if (money.compareTo(transferDao.getBalance(transfer.getSenderId())) <= 0) {
-                System.out.println("Balance is more than amount to transfer!");
+            if (transfer.getTransferAmount().compareTo(transferDao.getBalance(transfer.getSenderId())) <= 0) {
                 if (transfer.getSenderId() != transfer.getRecipientId()) {
-                    transferDao.addSendTransfer(senderAccountId, recipientAccountId, transfer.getTransferAmount());
-                    transferDao.sendTBucks(transfer.getRecipientId(), transfer.getTransferAmount());
-                    transferDao.receivingTBucks(transfer.getSenderId(), transfer.getTransferAmount());
+                    transferDao.addTransfer(transfer);
+                    transferDao.sendTBucks(transfer);
+                    transferDao.receiveTBucks(transfer.getRecipientId(), transfer.getTransferAmount());
                 }
             }
-            else System.out.println("Balance not large enough!");
         } catch (ResourceAccessException e) {
-            System.err.println("try again!");
+            System.err.println("We are having some trouble with your send request. Please try again.");
         }
     }
 
     @PutMapping(path = "/receive")
-    public void receivingTBucks(@RequestBody Transfer transfer) {
-        System.out.println(transfer.getRecipientId() + " " + transfer.getSenderId() + " " + transfer.getTransferAmount());
-        BigDecimal money = transfer.getTransferAmount();
+    public String receiveTBucksRequest(@RequestBody Transfer transfer) {
+
+        transfer.setSenderAccountId(accountDao.getAccount(transfer.getSenderId()).getId());
+        transfer.setRecipientAccountId(accountDao.getAccount(transfer.getRecipientId()).getId());
+        transfer.setTransferStatus(1);
+        transfer.setTransferType(1);
+
         try {
-            if (money.compareTo(transferDao.getBalance(transfer.getSenderId())) <= 0) {
-                System.out.println("Balance is more than amount to transfer!");
-                if (transfer.getSenderId() != transfer.getRecipientId()) {
-                    transferDao.sendTBucks(transfer.getSenderId(), transfer.getTransferAmount());
-                    transferDao.receivingTBucks(transfer.getRecipientId(), transfer.getTransferAmount());
-                    transfer.setTransferStatus(1);
-                    transfer.setTransferType(1);
-                }
-            }
-            else System.out.println("Balance not large enough!");
-        } catch (ResourceAccessException e) {
-            System.err.println("try again!");
+            transferDao.addTransfer(transfer);
+        } catch (Exception e) {
+            return "We are having some trouble with your receive request. Please try again.";
         }
+        return "Your request was sent!";
     }
-
-
 }

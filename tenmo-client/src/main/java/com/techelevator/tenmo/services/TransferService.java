@@ -4,6 +4,7 @@ import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.*;
+import java.util.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -13,7 +14,7 @@ public class TransferService {
 
     private String baseUrl;
     private final RestTemplate restTemplate = new RestTemplate();
-    private AuthenticatedUser currentUser;
+    private final AuthenticatedUser currentUser;
 
     public TransferService(String baseUrl, AuthenticatedUser currentUser) {
         this.baseUrl = baseUrl;
@@ -25,27 +26,27 @@ public class TransferService {
 
         Transfer transfer = new Transfer();
         BigDecimal amount;
+        Scanner scan = new Scanner(System.in);
+
+
 
         try {
-            Scanner scan = new Scanner(System.in);
 
             transfer.setRecipientId(Long.parseLong(scan.nextLine()));
             transfer.setSenderId(currentUser.getUser().getId());
 
-            if (transfer.getRecipientId() != 0) {
+            if (transfer.getRecipientId() != 0 && transfer.getRecipientId() != transfer.getSenderId()) {
                 System.out.println("Please enter an amount: ");
-            }
-
-            try {
                 amount = scan.nextBigDecimal();
                 transfer.setTransferAmount(amount);
-            } catch (NumberFormatException e) {
-                System.out.println("Something went wrong while entering amount to transfer.");
+                restTemplate.put(baseUrl + "/transfer", makeTransferEntity(transfer));
             }
-
-            restTemplate.put(baseUrl + "/transfer", makeTransferEntity(transfer));
-        } catch (DataAccessException e) {
+            } catch (DataAccessException e) {
             System.out.println();
+        } catch (NumberFormatException e) {
+            System.out.println("The information you entered is invalid.");
+        } catch (InputMismatchException e) {
+            System.out.println("Please enter a number.");
         }
     }
 
@@ -60,8 +61,10 @@ public class TransferService {
             transfer.setRecipientId(Long.parseLong(scan.nextLine()));
             transfer.setSenderId(currentUser.getUser().getId());
 
-            if (transfer.getSenderId() != 0) {
+            if (transfer.getSenderId() != transfer.getRecipientId()) {
                 System.out.println("Please enter an amount: ");
+            } else {
+                System.out.println("Oops looks like you chose your account. Please try again.");
             }
 
             try {

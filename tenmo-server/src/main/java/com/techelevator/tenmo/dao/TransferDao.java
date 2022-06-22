@@ -14,13 +14,11 @@ public interface TransferDao {
 
     BigDecimal getBalance(long id);
 
-    void receivingTBucks(long receiverId, BigDecimal amount);
+    void receiveTBucks(long receiverId, BigDecimal amount);
 
-    void sendTBucks(long senderId, BigDecimal amount);
+    void sendTBucks(Transfer transfer);
 
-    Long addSendTransfer(long senderId, long receiverId, BigDecimal amount);
-
-    void addRequestTransfer(long senderId, long receiverId, BigDecimal amount);
+    void addTransfer(Transfer transfer);
 
     String updateTransferRequest (Transfer transfer, long statusId);
 
